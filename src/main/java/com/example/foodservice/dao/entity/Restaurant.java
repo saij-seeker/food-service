@@ -1,20 +1,19 @@
-package com.example.foodservice.dto.model;
+package com.example.foodservice.dao.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@Entity
 @Table(name="restaurants")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private long id;
     private String name;
     private String address;
 

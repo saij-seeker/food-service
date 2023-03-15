@@ -1,13 +1,14 @@
 package com.example.foodservice.controller;
 
-import com.example.foodservice.dto.model.Restaurant;
+import com.example.foodservice.dao.entity.Restaurant;
+import com.example.foodservice.dto.RestaurantDto;
 import com.example.foodservice.service.RestaurantService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class RestaurantController {
@@ -15,14 +16,25 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
-    @PostMapping("/addRestaurant")
+
+    @PostMapping("/restaurant")
     public void addRestaurant(@RequestBody Restaurant restaurant) {
         restaurantService.addRestaurant(restaurant);
+      // return new ResponseEntity<String>(restaurantService.addRestaurant(restaurant),HttpStatus.OK);
+    }
+
+    @GetMapping("/restaurantById")
+    public ResponseEntity<RestaurantDto> getRestaurantById(@RequestParam("id") long id) {
+        return new ResponseEntity<RestaurantDto>(restaurantService.getRestaurantDetailsById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/restaurantByName")
+    public ResponseEntity<List<RestaurantDto>> getRestaurantByName(@RequestParam("name") String name) {
+        return new ResponseEntity<List<RestaurantDto>>(restaurantService.getRestaurantsDetailsByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/restaurants")
-    public String getRestaurants() {
-      return new Gson().toJson(restaurantService.getRestaurantsDetails());
-
+    public ResponseEntity<List<RestaurantDto>> getRestaurants() {
+        return new ResponseEntity<List<RestaurantDto>>(restaurantService.getRestaurantsDetails(), HttpStatus.OK);
     }
 }
