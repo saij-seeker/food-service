@@ -4,6 +4,7 @@ import com.example.foodservice.dao.entity.Restaurant;
 import com.example.foodservice.dao.repository.RestaurantRepository;
 import com.example.foodservice.dto.RestaurantDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,18 +33,21 @@ public class RestaurantService {
         return restaurantDtoList;
     }
 
-    public RestaurantDto getRestaurantDetailsById(long id) {
+    public ResponseEntity<RestaurantDto> getRestaurantDetailsById(long id) {
         RestaurantDto restaurantDto = new RestaurantDto();
         Optional<Restaurant> restaurantEntity = restaurantRepository.findById(id);
-        restaurantEntity.ifPresent(restaurant ->
-        {
-            restaurantDto.setId(restaurant.getId());
-            restaurantDto.setName(restaurant.getName());
-            restaurantDto.setAddress(restaurant.getAddress());
-        });
-        return restaurantDto;
+         if(restaurantEntity.isPresent()){
+           {
+               restaurantDto.setId(restaurantEntity.get().getId());
+               restaurantDto.setName(restaurantEntity.get().getName());
+               restaurantDto.setAddress(restaurantEntity.get().getAddress());
+           };
+           return ResponseEntity.ok(restaurantDto);}
+        else{
+            return ResponseEntity.notFound().build();
+        }
+       }
 
-    }
 
     public List<RestaurantDto> getRestaurantsDetailsByName(String name) {
         List<RestaurantDto> restaurantDtoList = new ArrayList<RestaurantDto>();

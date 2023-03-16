@@ -4,7 +4,6 @@ import com.example.foodservice.dao.entity.Restaurant;
 import com.example.foodservice.dto.RestaurantDto;
 import com.example.foodservice.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,21 +19,20 @@ public class RestaurantController {
     @PostMapping("/restaurant")
     public void addRestaurant(@RequestBody Restaurant restaurant) {
         restaurantService.addRestaurant(restaurant);
-      // return new ResponseEntity<String>(restaurantService.addRestaurant(restaurant),HttpStatus.OK);
     }
 
-    @GetMapping("/restaurantById")
-    public ResponseEntity<RestaurantDto> getRestaurantById(@RequestParam("id") long id) {
-        return new ResponseEntity<RestaurantDto>(restaurantService.getRestaurantDetailsById(id), HttpStatus.OK);
+    @RequestMapping(value = "/restaurant", params = "id",method=RequestMethod.GET)
+    public ResponseEntity<RestaurantDto> getRestaurantById(@RequestParam(name = "id") long id) {
+        return restaurantService.getRestaurantDetailsById(id);
     }
 
-    @GetMapping("/restaurantByName")
-    public ResponseEntity<List<RestaurantDto>> getRestaurantByName(@RequestParam("name") String name) {
-        return new ResponseEntity<List<RestaurantDto>>(restaurantService.getRestaurantsDetailsByName(name), HttpStatus.OK);
+    @RequestMapping(value = "/restaurant", params = "name", method=RequestMethod.GET)
+    public ResponseEntity<List<RestaurantDto>> getRestaurantByName(@RequestParam(name = "name") String name) {
+        return ResponseEntity.ok(restaurantService.getRestaurantsDetailsByName(name));
     }
 
     @GetMapping("/restaurants")
     public ResponseEntity<List<RestaurantDto>> getRestaurants() {
-        return new ResponseEntity<List<RestaurantDto>>(restaurantService.getRestaurantsDetails(), HttpStatus.OK);
+        return ResponseEntity.ok(restaurantService.getRestaurantsDetails());
     }
 }
