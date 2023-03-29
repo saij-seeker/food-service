@@ -1,8 +1,6 @@
 package com.example.foodservice.dao.entity;
 
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,13 +13,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="users")
-public class User {
+@Table(name = "orderitems")
+public class OrderItem {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String name;
-    private String address;
-    private String mailId;
-    private String contact;
+    private long itemId;
+    private long orderId;
+
+    private long quantity;
+
 }

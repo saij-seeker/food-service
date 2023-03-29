@@ -1,13 +1,3 @@
-CREATE TABLE IF NOT EXISTS foodservice_test
-(
- id          bigint NOT NULL AUTO_INCREMENT ,
- name        varchar(50) NULL ,
- created_at datetime NOT NULL,
- updated_at datetime NOT NULL,
-
- PRIMARY KEY (id)
-) AUTO_INCREMENT=1;
-
 CREATE TABLE IF NOT EXISTS restaurants
 (
 id      bigint NOT NULL AUTO_INCREMENT ,
@@ -39,16 +29,23 @@ contact        varchar(50) NOT NULL,
 PRIMARY KEY(id)
 )AUTO_INCREMENT=1;
 
-
 CREATE TABLE IF NOT EXISTS orders
 (
 id       bigint NOT NULL AUTO_INCREMENT,
+user_id  bigint,
+purchased_at datetime NOT NULL,
+PRIMARY KEY(id),
+FOREIGN KEY (user_id) REFERENCES users(id)
+)AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS orderItems
+(
+id       bigint NOT NULL AUTO_INCREMENT,
+order_id bigint,
 item_id  bigint,
 quantity bigint NOT NULL,
-amount   bigint NOT NULL,
-user_id  bigint,
 
 PRIMARY KEY(id),
 FOREIGN KEY (item_id) REFERENCES items(id),
-FOREIGN KEY (user_id) REFERENCES users(id)
-)AUTO_INCREMENT=1;
+FOREIGN KEY (order_id) REFERENCES orders(id)
+ )AUTO_INCREMENT=1;
