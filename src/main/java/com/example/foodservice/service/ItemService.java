@@ -1,6 +1,7 @@
 package com.example.foodservice.service;
 
 import com.example.foodservice.dao.entity.Item;
+import com.example.foodservice.dao.entity.Restaurant;
 import com.example.foodservice.dao.repository.ItemRepository;
 import com.example.foodservice.dto.ItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,14 @@ public class ItemService {
 
     public List<ItemDto> getItems(long restaurant_id) {
         List<ItemDto> itemDtoList = new ArrayList<ItemDto>();
-        List<Item> itemEntityList = itemRepository.findAll().stream().filter(item -> item.getRestaurantId() == restaurant_id).collect(Collectors.toList());
+        List<Item> itemEntityList = itemRepository.findItemsByRestaurantId(restaurant_id);
         for (Item item : itemEntityList) {
             ItemDto itemDto = new ItemDto();
             itemDto.setId(item.getId());
             itemDto.setName(item.getName());
             itemDto.setPrice(item.getPrice());
-            itemDto.setRestaurantId(item.getRestaurantId());
+            Restaurant restaurant=item.getRestaurant();
+            itemDto.setRestaurantId(restaurant.getId());
             itemDtoList.add(itemDto);
         }
         return itemDtoList;
