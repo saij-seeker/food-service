@@ -6,6 +6,7 @@ import com.example.foodservice.dto.RestaurantDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,20 +34,39 @@ public class RestaurantService {
         return restaurantDtoList;
     }
 
+    public ResponseEntity<Restaurant> updateRestaurant(long id, @RequestBody Restaurant updatedRestaurant) {
+
+        RestaurantDto restaurantDto = new RestaurantDto();
+        Optional<Restaurant> existingRestaurant = restaurantRepository.findById(id);
+        Restaurant restaurant = null;
+        if (existingRestaurant.isPresent()) {
+            {
+                restaurant = existingRestaurant.get();
+                restaurant.setName(updatedRestaurant.getName());
+                restaurant.setAddress(updatedRestaurant.getAddress());
+            }
+            return ResponseEntity.ok(restaurantRepository.save(restaurant));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     public ResponseEntity<RestaurantDto> getRestaurantDetailsById(long id) {
         RestaurantDto restaurantDto = new RestaurantDto();
         Optional<Restaurant> restaurantEntity = restaurantRepository.findById(id);
-         if(restaurantEntity.isPresent()){
-           {
-               restaurantDto.setId(restaurantEntity.get().getId());
-               restaurantDto.setName(restaurantEntity.get().getName());
-               restaurantDto.setAddress(restaurantEntity.get().getAddress());
-           };
-           return ResponseEntity.ok(restaurantDto);}
-        else{
+        if (restaurantEntity.isPresent()) {
+            {
+                Restaurant restaurant = restaurantEntity.get();
+                restaurantDto.setId(restaurant.getId());
+                restaurantDto.setName(restaurant.getName());
+                restaurantDto.setAddress(restaurant.getAddress());
+            }
+            ;
+            return ResponseEntity.ok(restaurantDto);
+        } else {
             return ResponseEntity.notFound().build();
         }
-       }
+    }
 
 
     public List<RestaurantDto> getRestaurantsDetailsByName(String name) {

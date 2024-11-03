@@ -21,12 +21,17 @@ public class RestaurantController {
         restaurantService.addRestaurant(restaurant);
     }
 
-    @RequestMapping(value = "/restaurant", params = "id",method=RequestMethod.GET)
+    @PutMapping("/restaurant")
+    public ResponseEntity<Restaurant> updateRestaurant(@RequestParam(name = "id") long id, @RequestBody Restaurant restaurant) {
+        return restaurantService.updateRestaurant(id, restaurant);
+    }
+
+    @RequestMapping(value = "/restaurant", params = "id", method = RequestMethod.GET)
     public ResponseEntity<RestaurantDto> getRestaurantById(@RequestParam(name = "id") long id) {
         return restaurantService.getRestaurantDetailsById(id);
     }
 
-    @RequestMapping(value = "/restaurant", params = "name", method=RequestMethod.GET)
+    @RequestMapping(value = "/restaurant", params = "name", method = RequestMethod.GET)
     public ResponseEntity<List<RestaurantDto>> getRestaurantByName(@RequestParam(name = "name") String name) {
         return ResponseEntity.ok(restaurantService.getRestaurantsDetailsByName(name));
     }

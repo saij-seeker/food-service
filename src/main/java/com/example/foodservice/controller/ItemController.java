@@ -2,7 +2,6 @@ package com.example.foodservice.controller;
 
 import com.example.foodservice.dao.entity.Item;
 import com.example.foodservice.dto.ItemDto;
-import com.example.foodservice.dto.ItemDtoResponse;
 import com.example.foodservice.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,23 @@ public class ItemController {
         itemService.deleteItem(itemId);
     }
 
-    @GetMapping("/items")
+    @PutMapping("/item")
+    public ResponseEntity<Item> updateItem(@RequestParam("id") int itemId, @RequestBody Item item) {
+        return itemService.updateItem(itemId, item);
+    }
+
+    @RequestMapping(value = "/items", params = "restaurant_id", method = RequestMethod.GET)
     public ResponseEntity<List<ItemDto>> getItems(@RequestParam("restaurant_id") int restaurant_id) {
         return ResponseEntity.ok(itemService.getItems(restaurant_id));
+    }
+
+    @RequestMapping(value = "/items", params = "name", method = RequestMethod.GET)
+    public ResponseEntity<List<ItemDto>> getItems(@RequestParam("name") String itemName) {
+        return ResponseEntity.ok(itemService.getItems(itemName));
+    }
+
+    @GetMapping("/items")
+    public ResponseEntity<List<ItemDto>> getItems() {
+        return ResponseEntity.ok(itemService.getItems());
     }
 }
