@@ -20,16 +20,17 @@ public class CartService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+
     public void addItemToCart(CartRequest cartRequest) {
         Cart cart = new Cart();
         User user = new User();
         user.setId(cartRequest.getUserId());
         List<Cart> cartList = cartRepository.findByUser(user);
         if (cartList.isEmpty()) {
-            cart.setUserId(user);
+            cart.setUser(user);
             Restaurant restaurant = new Restaurant();
             restaurant.setId(cartRequest.getRestaurantId());
-            cart.setRestaurantId(restaurant);
+            cart.setRestaurant(restaurant);
             cartRepository.save(cart);
             List<CartItem> cartItems = new ArrayList<>();
             for (ItemRequest itemRequest : cartRequest.getItemRequestList()) {
@@ -66,13 +67,13 @@ public class CartService {
         if (!cartList.isEmpty()) {
             Cart existingCart = cartList.get(0);
             long cartId = existingCart.getId();
-            response.setUserId(existingCart.getUserId().getId());
-            response.setRestaurantId(existingCart.getRestaurantId().getId());
+            response.setUserId(existingCart.getUser().getId());
+            response.setRestaurantId(existingCart.getRestaurant().getId());
             List<ItemDtoResponse> itemDtoList = new ArrayList<>();
             List<CartItem> existingCartItems = cartItemRepository.findByCartId(cartId);
             for (CartItem cartItem : existingCartItems) {
                 ItemDtoResponse itemDto = new ItemDtoResponse();
-                itemDto.setId(cartItem.getId());
+                itemDto.setId(cartItem.getItem().getId());
                 itemDto.setQuantity(cartItem.getQuantity());
                 itemDtoList.add(itemDto);
             }

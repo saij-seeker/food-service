@@ -34,9 +34,10 @@ public class RestaurantService {
         return restaurantDtoList;
     }
 
-    public ResponseEntity<Restaurant> updateRestaurant(long id, @RequestBody Restaurant updatedRestaurant) {
+    public ResponseEntity<RestaurantDto> updateRestaurant(long id, @RequestBody RestaurantDto updatedRestaurant) {
 
         RestaurantDto restaurantDto = new RestaurantDto();
+        updatedRestaurant.setId(id);
         Optional<Restaurant> existingRestaurant = restaurantRepository.findById(id);
         Restaurant restaurant = null;
         if (existingRestaurant.isPresent()) {
@@ -45,8 +46,9 @@ public class RestaurantService {
                 restaurant.setName(updatedRestaurant.getName());
                 restaurant.setAddress(updatedRestaurant.getAddress());
             }
-            return ResponseEntity.ok(restaurantRepository.save(restaurant));
-        } else {
+            restaurantRepository.save(restaurant);
+            return ResponseEntity.ok(updatedRestaurant);
+        }else{
             return ResponseEntity.notFound().build();
         }
     }
@@ -61,7 +63,7 @@ public class RestaurantService {
                 restaurantDto.setName(restaurant.getName());
                 restaurantDto.setAddress(restaurant.getAddress());
             }
-            ;
+
             return ResponseEntity.ok(restaurantDto);
         } else {
             return ResponseEntity.notFound().build();

@@ -22,8 +22,8 @@ public class RestaurantController {
     }
 
     @PutMapping("/restaurant")
-    public ResponseEntity<Restaurant> updateRestaurant(@RequestParam(name = "id") long id, @RequestBody Restaurant restaurant) {
-        return restaurantService.updateRestaurant(id, restaurant);
+    public ResponseEntity<RestaurantDto> updateRestaurant(@RequestParam(name = "id") long id, @RequestBody RestaurantDto restaurant) {
+       return restaurantService.updateRestaurant(id, restaurant);
     }
 
     @RequestMapping(value = "/restaurant", params = "id", method = RequestMethod.GET)

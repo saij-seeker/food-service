@@ -49,3 +49,26 @@ PRIMARY KEY(id),
 FOREIGN KEY (item_id) REFERENCES items(id),
 FOREIGN KEY (order_id) REFERENCES orders(id)
  )AUTO_INCREMENT=1;
+
+
+ CREATE TABLE IF NOT EXISTS cart
+ (
+ id       bigint NOT NULL AUTO_INCREMENT,
+ user_id  bigint,
+ restaurant_Id bigint,
+ PRIMARY KEY(id),
+ FOREIGN KEY (user_id) REFERENCES users(id),
+ FOREIGN KEY (restaurant_id) REFERENCES restaurants(id)
+ )AUTO_INCREMENT=1;
+
+ CREATE TABLE IF NOT EXISTS cartItems
+ (
+ id       bigint NOT NULL AUTO_INCREMENT,
+ item_id  bigint,
+ cart_id  bigint,
+ quantity bigint NOT NULL,
+ PRIMARY KEY(id),
+ FOREIGN KEY (item_id) REFERENCES items(id),
+ FOREIGN KEY (cart_id) REFERENCES cart(id)
+  )AUTO_INCREMENT=1;
+

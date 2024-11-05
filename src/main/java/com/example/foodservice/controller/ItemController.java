@@ -26,7 +26,7 @@ public class ItemController {
     }
 
     @PutMapping("/item")
-    public ResponseEntity<Item> updateItem(@RequestParam("id") int itemId, @RequestBody Item item) {
+    public ResponseEntity<ItemDto> updateItem(@RequestParam("id") int itemId, @RequestBody ItemDto item) {
         return itemService.updateItem(itemId, item);
     }
 

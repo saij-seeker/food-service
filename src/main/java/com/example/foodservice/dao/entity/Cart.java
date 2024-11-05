@@ -21,9 +21,9 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_Id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_Id", referencedColumnName = "id")
-    private Restaurant restaurantId;
+    private Restaurant restaurant;
 }
