@@ -26,4 +26,7 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "restaurant_Id", referencedColumnName = "id")
     private Restaurant restaurant;
+
+    @OneToMany
+    List<CartItem> cartItems;
 }

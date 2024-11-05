@@ -24,4 +24,9 @@ public class CartController {
     public ResponseEntity<CartDto> viewCart(@RequestParam(name="userId") long userId){
         return ResponseEntity.ok(cartService.getCartDetails(userId));
     }
+
+    @DeleteMapping("/cart")
+    public void deleteAllItems(@RequestParam(name="cart_id") long cartId){
+        cartService.deleteCartItems(cartId);
+    }
 }

@@ -24,7 +24,7 @@ public class CartItem {
     @JoinColumn(name = "item_Id", referencedColumnName = "id")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_Id", referencedColumnName = "id")
     private Cart cart;
 
